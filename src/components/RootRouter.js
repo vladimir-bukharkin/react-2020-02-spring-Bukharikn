@@ -29,13 +29,13 @@ export default function router() {
                     <Route exact path="/">
                         <Home />
                     </Route>
+                    <Route path="/book/:id" exact={false}>
+                        {console.warn("book redirect")}
+                        <Book />
+                    </Route>
                     <Route path="/book">
                         {console.warn("books")}
                         <Books />
-                    </Route>
-                    <Route path="/book/:id">
-                        {console.warn("book redirect")}
-                        <Book />
                     </Route>
                     <Route path="/dashboard">
                         <Dashboard />

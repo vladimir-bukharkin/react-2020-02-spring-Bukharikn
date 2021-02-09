@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {
-    Redirect
+    generatePath,
+    withRouter
 } from "react-router-dom";
 
 export default class Books extends PureComponent {
@@ -28,7 +29,7 @@ export default class Books extends PureComponent {
 class BookList extends React.Component {
     render() {
         const books = this.props.books.map(book =>
-            <BookElement key={book.id} book={book}/>
+            <WrappedBookElement key={book.id} book={book}/>
         );
         return (
             <React.Fragment>
@@ -58,9 +59,6 @@ class BookElement extends React.Component {
 
     render() {
         console.warn("redirect ", this.state.redirectBookId);
-        if (this.state.redirectBookId != null) {
-            return (this.redirectToBook(this.state.redirectBookId));
-        }
         const book = this.props.book;
         return (
             <tr onClick={() => this.handleClick(book.id)}>
@@ -75,14 +73,9 @@ class BookElement extends React.Component {
 
     handleClick(bookId) {
         console.warn("set new state", bookId);
-
-        this.setState({
-            redirectBookId: bookId
-        });
-    }
-
-    redirectToBook(bookId) {
-        console.warn("redirect!!!!");
-        return (<Redirect to={"/book/" + bookId}/>)
+        this.props.history.push(generatePath("/book/:id", {id: bookId}));
+        console.warn(this.props);
     }
 }
+
+const WrappedBookElement = withRouter(BookElement)

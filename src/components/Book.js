@@ -1,26 +1,30 @@
 import React, {PureComponent} from 'react';
-import {useParams} from "react-router";
+import {withRouter} from "react-router-dom";
 
 const Header = (props) => (
     <h1>{props.title}</h1>
 );
 
-export default class Book extends PureComponent {
+class Book extends PureComponent {
 
     constructor(props) {
         console.log("Book")
         super(props);
         this.state = {book: {}}
-        let {id} = useParams();
-        console.warn(id);
     }
 
     componentDidMount() {
-        fetch('/api/book/'+{id})
-            .then(response => response.json())
-            .then(book => this.setState({
-                book: book
-            }));
+        console.warn(this.props);
+        const {match} = this.props;
+        if (match && match.params) {
+            const id = match.params.id;
+            console.warn(id);
+            fetch(`/api/book/${id}`)
+                .then(response => response.json())
+                .then(book => this.setState({
+                    book: book
+                }));
+        }
     }
 
     render() {
@@ -53,3 +57,5 @@ export default class Book extends PureComponent {
         )
     }
 }
+
+export default withRouter(Book);
