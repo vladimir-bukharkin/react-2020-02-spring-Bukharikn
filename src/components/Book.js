@@ -1,4 +1,5 @@
 import React, {PureComponent} from 'react';
+import {useParams} from "react-router";
 
 const Header = (props) => (
     <h1>{props.title}</h1>
@@ -10,10 +11,12 @@ export default class Book extends PureComponent {
         console.log("Book")
         super(props);
         this.state = {book: {}}
+        let {id} = useParams();
+        console.warn(id);
     }
 
     componentDidMount() {
-        fetch('/api/book/5fe6575849ebe14c47ab3f80')
+        fetch('/api/book/'+{id})
             .then(response => response.json())
             .then(book => this.setState({
                 book: book

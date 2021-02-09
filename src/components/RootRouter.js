@@ -6,10 +6,10 @@ import {
     Link
 } from "react-router-dom";
 import Books from "./Books";
+import Book from "./Book";
 
 export default function router() {
     return (
-
         <Router>
             <div>
                 <ul>
@@ -17,7 +17,7 @@ export default function router() {
                         <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/books">Books</Link>
+                        <Link to="/book">Books</Link>
                     </li>
                     <li>
                         <Link to="/dashboard">Dashboard</Link>
@@ -29,8 +29,13 @@ export default function router() {
                     <Route exact path="/">
                         <Home />
                     </Route>
-                    <Route path="/books">
+                    <Route path="/book">
+                        {console.warn("books")}
                         <Books />
+                    </Route>
+                    <Route path="/book/:id">
+                        {console.warn("book redirect")}
+                        <Book />
                     </Route>
                     <Route path="/dashboard">
                         <Dashboard />

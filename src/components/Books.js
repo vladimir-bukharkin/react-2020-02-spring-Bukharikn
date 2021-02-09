@@ -1,4 +1,7 @@
 import React, {PureComponent} from 'react';
+import {
+    Redirect
+} from "react-router-dom";
 
 export default class Books extends PureComponent {
 
@@ -15,11 +18,6 @@ export default class Books extends PureComponent {
             }));
     }
 
-
-    // handleChange(e) {
-    //     this.setState({temperature: e.target.value});
-    // }
-
     render() {
         return (
             <BookList books = {this.state.books}/>
@@ -30,7 +28,7 @@ export default class Books extends PureComponent {
 class BookList extends React.Component {
     render() {
         const books = this.props.books.map(book =>
-            <Book book={book}/>
+            <BookElement key={book.id} book={book}/>
         );
         return (
             <React.Fragment>
@@ -52,11 +50,20 @@ class BookList extends React.Component {
     }
 }
 
-class Book extends React.Component{
+class BookElement extends React.Component {
+    constructor(prop) {
+        super(prop);
+        this.state = {redirectBookId: null};
+    }
+
     render() {
+        console.warn("redirect ", this.state.redirectBookId);
+        if (this.state.redirectBookId != null) {
+            return (this.redirectToBook(this.state.redirectBookId));
+        }
         const book = this.props.book;
         return (
-            <tr key={book.id}>
+            <tr onClick={() => this.handleClick(book.id)}>
                 <td>{book.id}</td>
                 <td>{book.name}</td>
                 <td>{book.genre == null ? "" : book.genre.name}</td>
@@ -64,5 +71,18 @@ class Book extends React.Component{
                     .join(", ")}</td>
             </tr>
         )
+    }
+
+    handleClick(bookId) {
+        console.warn("set new state", bookId);
+
+        this.setState({
+            redirectBookId: bookId
+        });
+    }
+
+    redirectToBook(bookId) {
+        console.warn("redirect!!!!");
+        return (<Redirect to={"/book/" + bookId}/>)
     }
 }
