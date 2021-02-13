@@ -32,14 +32,6 @@ module.exports = {
                 NODE_ENV: JSON.stringify("production")
             }
         }),
-        // new webpack.optimize.UglifyJsPlugin({
-        //     compress: {
-        //         warnings: false,
-        //     },
-        //     output: {
-        //         comments: false,
-        //     },
-        // }),
         new HtmlWebpackPlugin({
             template: './src/index.html',
             filename:"index.html"
